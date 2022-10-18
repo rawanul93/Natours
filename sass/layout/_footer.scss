@@ -1,0 +1,119 @@
+.footer {
+    background-color: $color-black;
+    padding: 10rem 0rem;
+    font-size: 1.4rem;
+    color: $color-grey;
+
+    @include respond(tab-port) {
+        padding: 8rem 0; 
+        text-align: center;
+    }
+
+
+    @include respond(tab-land) {
+        padding: 8rem 4rem; 
+        //text-align: center;
+    }
+
+    &__logo-box {
+        text-align: center; // this centers the logo inside it which is an <img> element which is inline.
+        box-shadow: 0 1rem 2rem rgba($color-black, $alpha: .4);
+
+    }
+
+    &__logo {
+        display: inline-block;
+        //width: 15rem;
+        height: auto;
+        filter: saturate(0%) drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5));
+
+    }
+
+    &__navigation {
+
+        border-top: 1px solid rgba($color-grey, 0.45);
+        padding-top: 2rem;
+        display: inline-block; // to make sure its only taking the width of the content and not more than that. Inline-block doesnt take the total available width. Just takes the content width.
+      
+       
+    }
+
+    &__list {
+        list-style: none;
+    }
+
+    &__item {
+        display: inline-block;
+
+        &:not(:last-child) {
+            margin-right: 1.5rem;
+        }
+    }
+
+    &__link {
+
+        &:link,
+        &:visited {
+            text-decoration: none;
+            font-weight: 500;
+            color: $color-white;
+            text-transform: uppercase;
+            display: inline-block;
+            position: relative;
+            transition: all .2s;
+            background-color: $color-black;
+            margin: 1rem 0rem;
+            box-decoration-break: clone; // makes sure that the box padding styles are applied to elements that break when screen width is smaller.
+            -webkit-box-decoration-break: clone;
+
+
+            &::after {
+
+                display: inline-block;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                content: "";
+                height: 2px;
+                width: 100%;
+                //margin-top: 1px;
+                background-color: $color-primary-light;
+                opacity: 0;    
+            }
+        }
+
+        &:hover,
+        &:active
+         {
+            color: $color-primary-light-2;
+            box-shadow: 0 1rem 2rem rgba($color-black, .65);
+
+            &::after {
+                opacity: 1;
+                animation-name: fillIn;
+                animation-duration: .25s;
+                animation-timing-function: ease-in-out;
+            }
+        }
+
+       
+
+    }
+
+    &__copywrite {
+        width: 80%;
+        float: right;
+        border-top: 1px solid rgba($color-grey, 0.45);
+        padding-top: 2rem;
+        color: $color-grey;
+
+        @include respond(tab-port) {
+            float: none;
+            width: 100%;
+        }
+
+        a {
+            margin: 0rem 0.5rem !important;
+        }
+    }
+}

@@ -1,0 +1,230 @@
+.card {
+
+    perspective: 100rem; // perspective has to be implemented on the parent element of the one where the actual transform occurs.
+    -moz-perspective: 150rem; // so that it works on firefox.
+    position: relative;
+    height: 52rem; // defined the height for this because we wanted the front of the card to have the same size as the back of the card.
+
+    &__side {
+        // background-color: orangered;
+        height: 52rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        backface-visibility: hidden;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .25);
+        border-radius: 3px;
+        overflow: hidden;
+        transition: all .8s ease;
+
+        // @include respond(tab-port) {
+        //     max-width: 75%;
+        //     top: 0;
+        //     left: 12%;
+
+        // }
+
+        &--front {
+            background-color: $color-white;
+            //z-index: 10;
+
+        }
+
+        &--back {
+            background-color: $color-secondary-light;
+            transform: rotateY(-180deg); // the backside of the card is already flipped before hovering.
+            //z-index: 9;
+
+            &-1 {
+                background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark);
+            }
+
+            &-2 {
+                background-image: linear-gradient(to right bottom, $color-green-light, $color-primary-dark);
+            }
+
+            &-3 {
+                background-image: linear-gradient(to right bottom, $color-primary-light, $color-tertiary-dark);
+            }
+
+
+
+        }
+
+        
+    }
+
+    &:hover &__side--front { // .card:hover .card__side (not putting the hover inside the __side means we wanted the hover effect to take place for the entire card element and not just the side.
+        transform: rotateY(180deg);
+        //z-index: 9;
+    }
+
+    &:hover &__side--back {
+        transform: rotateY(0); // since backside is already rotated before hover. We want to 'unrotate' it back to zero when we hover on it.
+        //-index: 10;
+    }
+
+    // FRONT SIDE STYLING
+
+    &__picture {
+        background-size: cover;
+        height: 25rem;
+        background-blend-mode: screen;
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 0% 100%);
+
+        &--1 {
+            background-image:  linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark), url(../img/nat-5.jpg);
+        }
+
+        &--2 {
+            background-image:  linear-gradient(to right bottom, $color-green-light, $color-green-dark), url(../img/nat-6.jpg);
+        }
+
+        &--3 {
+            background-image: linear-gradient(to right bottom, $color-primary-light, $color-tertiary-dark), url(../img/nat-7.jpg);
+        }
+
+    }
+
+    &__heading {
+        font-size: 2.8rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        position: absolute;
+        text-align: right;
+        top: 12rem;
+        right: 1rem;
+        color: $color-white;
+        width: 75%;
+    }
+
+    &__heading-span { //did not include inside heading because this is kinda like a new element, since its not a modifyer or an element of heading
+
+        padding: 1rem 1.5rem;
+        box-decoration-break: clone; // makes sure that the box padding styles are applied to elements that break when screen width is smaller.
+        -webkit-box-decoration-break: clone;
+
+        &--1 {
+            background-image:  linear-gradient(to right bottom, rgba($color-secondary-light, 0.85), rgba($color-secondary-dark,0.85));
+        }
+
+
+        &--2 {
+            background-image:  linear-gradient(to right bottom, rgba($color-green-light, 0.85), rgba($color-green-dark,0.85));
+        }
+
+
+        &--3 {
+            background-image:  linear-gradient(to right bottom, rgba($color-primary-light, 0.85), rgba($color-tertiary-dark,0.85));
+        }
+    }
+
+    &__details {
+
+        ul {
+            list-style: none;
+            width: 80%;
+            margin: 0 auto; // centering a block element inside a block element.
+
+            li { 
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid rgba($color-grey, 0.35);
+                }
+            }
+        }
+
+       
+    }
+
+    // BACK SIDE STYLING
+
+    &__cta {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        text-align: center;
+
+    }
+
+    &__price-box {
+        color: $color-white;
+        margin-bottom: 8rem;
+        text-align: center;
+
+    }
+
+    &__price-only {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+    }
+
+
+    &__price-value {
+        font-size: 6rem;
+        font-weight: 100;
+
+    }
+
+
+
+    ////// TABLET PORTRAIT STYLING
+
+    // @include respond(tab-port) {
+
+    @media only screen and (max-width: 56.25em),
+        only screen and (hover:none) { // adding this because we cannot always rely on screen size to know whether users can hover or not. In this case the styling is completly dependant on whether users can hover. So we add this condition where if the device does not contain hover, we will display the card with the button in front.
+
+        height: auto;
+        border-radius: 3px;
+        background-color: $color-white;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .25);
+
+
+        &__side {
+            // background-color: orangered;
+            height: auto;
+            position: relative;
+            box-shadow: none;
+
+    
+            &--back {
+                transform: rotateY(0); // was initially rotated 180deg. Now we dont want that anymore.
+                clip-path: polygon(0 15%, 100% 0, 100% 100%, 0% 100%);
+            }
+    
+            
+        }
+    
+        &:hover &__side--front { 
+            transform: rotateY(0); // should not rotate at all when we hover on it
+        }
+    
+        // BACK SIDE STYLING
+    
+        &__cta {
+            position: relative;
+            top: 0%;
+            left: 0%;
+            transform: translate(0);
+            width: 100%;
+            padding: 4rem;
+
+        }
+    
+        &__price-box {
+            margin-bottom: 3rem;    
+        }
+    
+        &__price-value {
+            font-size: 6rem;
+        }
+    }
+
+}

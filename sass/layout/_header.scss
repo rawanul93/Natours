@@ -1,0 +1,67 @@
+.header {
+    position: relative;
+    height: 85vh;
+    background-image: linear-gradient(to right bottom, rgba($color-primary-dark, 0.801), rgba($color-primary-light, 0.808)), url(../img/hero-small.jpg);
+    background-size: cover;
+    background-position: top; /* whatever the viewport size, the 'top' of the image stays in the same place */
+
+
+    // SUPPORTS QUERY FOR CLIPPATH ON FIREFOX
+    @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0,0)) {
+        -webkit-clip-path: polygon(0 0, 100% 0%, 100% 75vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0%, 100% 75vh, 0 100%); /* can use clippy to generate shapes*/
+        height: 95vh;
+    }
+
+    // MEDIA QUERY FOR SCREEN RESOLUTION ----- dpi means dots per inch for retina screens high resolution screen. So if resolution is high, apply the code below.
+    @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em), // combining multiple conditions. The comma ',' is like an OR in an if statement.
+        only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), // To make sure it works on SAFARI
+        only screen and (min-width: 125em) { 
+        // the top condition applys when resolution is at least high and screen size is also high. If screen size is less than 600px, we dont need to have a larger image even if device resolution is high.
+        background-image: linear-gradient(to right bottom, rgba($color-primary-dark, 0.801), rgba($color-primary-light, 0.808)), url(../img/hero.jpg);
+    }
+
+    // @media (min-width: 2000px) { // also display larger image when screen size is really huge, regardless of 
+    //     background-image: linear-gradient(to right bottom, rgba($color-primary-dark, 0.801), rgba($color-primary-light, 0.808)), url(../img/hero.jpg);
+    // }
+
+    @include respond(tab-land) {
+        clip-path: polygon(0 0, 100% 0%, 100% 85vh, 0 100%);
+    }
+
+    @include respond(tab-port) {
+        clip-path: polygon(0 0, 100% 0%, 100% 90vh, 0 100%);
+    }
+
+    &__logo-box {
+        position: absolute;
+        top: 7rem; /* The reference of top/left positioning comes from its parent element whose position is set to relative  */
+        left: 6rem;
+        
+        @include respond(tab-land) {
+            top: 6rem;
+            right: 4rem; 
+        }
+    }
+
+    &__logo {
+        height: 3.5rem;
+        cursor: pointer;
+        transition: all .4s;
+
+        &:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5));
+        }
+
+    }
+
+    &__text-box {
+        position: absolute;
+        top: 40%; /* in relation to its parent element */
+        left: 50%;
+        transform: translate(-50%, -50%); /* in relation to the element itself */
+        text-align: center; /* centers all text elements in the box, including the button */
+    }
+
+}

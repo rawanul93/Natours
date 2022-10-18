@@ -1,0 +1,98 @@
+.btn {
+    &, // making sure it also gets applied to elements with just the btn class and not just anchor elements
+    &:link, 
+    &:visited { /* link and visited are pseudo classes for btn which correspond to anchor elements*/
+        text-transform: uppercase;
+        text-decoration: none;
+        font-size: 1.6rem;
+        padding: 1.5rem 4rem;
+        display: inline-block; /* using this because it was an inline element (text), but we want it to be a block*/
+        border-radius: 200px;
+        transition: all .2s; /* 'all' indicates that all the properties will be animated. The animations are the transforms that we are applying to the other states. So the transition property should be in the initial state. */
+        position: relative;
+
+        // Changes for the <button> element.
+        border: none;
+        cursor: pointer;
+    }
+    
+    &:hover {
+        transform: translateY(-0.3rem);
+        box-shadow: 0 1rem 2rem rgba($color-black, 0.2); /* xDirection offset, yDirection offset, blur, color */
+
+        &::after {
+            transform: scaleX(1.2) scaleY(1.4); /* simply increases the size */
+            opacity: 0; /* making sure it fades out */
+        }
+    }
+    
+    &:active,
+    &:focus
+    { /* when we click an element thats the active state */
+        outline: none;
+        transform: translateY(-0.1rem); /* in relation to the initial state, not the hover */
+        box-shadow: 0 .5rem 1rem rgba($color-black, 0.2); /* xDirection offset, yDirection offset, blur, color */
+    }
+    
+    &--white {
+        color: $color-grey-dark;
+        background-color: $color-white;
+
+        &::after {
+            background-color: $color-white;
+        }
+    }
+
+    &--primary {
+        color: $color-white;
+        background-color: $color-primary-light;
+
+        &::after {
+            background-color: $color-primary-light;
+        }
+    }
+    
+    &::after { 
+        /* for the after pseudo element to work we need to we need to specify the content property and the display. Otherwise it will not appear on the screen */
+        content: ""; 
+        display: inline-block;
+        height: 100%;  /* kind of works like a child element, so 100% is of the actual parent element which is the button*/
+        width: 100%;
+        border-radius: 200px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        transition: all .4s;
+    }
+    
+    &--animated {
+        animation: moveInBottom 0.5s ease-out .4s;
+        animation-fill-mode: backwards; /* this automatically applies the styles up to 0%, before the animation starts */   
+    }
+}
+
+.btn-text {
+    &:link,
+    &:visited {
+        color: $color-primary-dark;
+        display: inline-block;
+        text-decoration: none;
+        border-bottom: 1px solid $color-primary-dark;
+        padding: 1rem;
+        font-size: $default-font-size;
+        transition: all .5s ease;
+    }
+
+    &:hover {
+        background-color: $color-primary-light;
+        color: $color-white;
+        box-shadow: 0 1rem 2rem rgba($color-black, 0.15);
+        transform: translateY(-2px)
+    }
+
+    &:active {
+        transform: translateY(0rem); /* in relation to the initial state, not the hover */
+        box-shadow: 0 .5rem 1rem rgba($color-black, 0.2);
+    }
+}

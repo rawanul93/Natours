@@ -1,0 +1,110 @@
+.story {
+    width: 75%;
+    margin: 0 auto; // cenering a block element inside a block element.
+    box-shadow: 0 3rem 6rem rgba($color-black, .35);
+    padding: 6rem;
+    padding-left: 9rem;
+    transform: skewX(-12deg);
+    font-size: $default-font-size;
+    background-color: rgba($color-white, 0.65);
+
+
+    & > * {
+        transform: skewX(12deg);
+    }
+
+
+    @include respond(tab-port) {
+        width: 100%;
+        padding: 4rem;
+        padding-left: 7rem;
+    }
+
+    @include respond(phone) {
+        transform: skewX(0);
+        padding: 4rem 0 4rem 7rem;
+    }
+
+
+    &__shape {
+        width: 15rem;
+        height: 15rem;
+        float: left;
+        transform: translateX(-3rem) skewX(12deg);
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+        // shape-outside: circle(50% at 50% 50%); // element must be floated for this to work AND must have a defined height and width.
+        // -webkit-shape-outside: circle(50% at 50% 50%); 
+
+        // SUPPORTS QUERY FOR CLIPPATH ON FIREFOX
+        @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0,0)) {
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+
+            shape-outside: circle(50% at 50% 50%); // element must be floated for this to work AND must have a defined height and width.
+            -webkit-shape-outside: circle(50% at 50% 50%); 
+            border-radius: none;
+
+        }
+
+        @include respond(phone) {
+            transform: translateX(-3rem) skewX(0);
+            margin-right: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        // x at y z --> x the first number is the radius (size) of the circle. In this case its 50% which is half the height of the element which is 7.5rem.
+        // the y and z define the center of the circle, which in this case is 50% 50% which means in the middle.
+    }
+
+    &__img {
+        height: 100%;
+        transform: translateX(-4rem) scale(1.4);
+        transition: all 0.3s;
+        backface-visibility: hidden;
+    }
+
+    &__text {
+
+       
+
+        @include respond(phone) {
+            transform: translateX(-3rem) skewX(0);
+
+            h3 {
+                display: inline-block;
+            }
+           
+        }
+    }
+
+    &__caption {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 20%);
+        color: $color-white;
+        text-transform: uppercase;
+        font-size: 1.7rem;
+        text-align: center;
+        opacity: 0;
+        transition: all 0.5s;
+        backface-visibility: hidden;
+
+    }
+
+    &:hover &__caption {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+
+    }
+
+    &:hover &__img {
+        transform: translateX(-4rem) scale(1);
+        filter: blur(3px) brightness(80%);
+
+    }
+
+
+}

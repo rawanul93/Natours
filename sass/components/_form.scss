@@ -1,0 +1,125 @@
+.form {
+
+    &__group {
+
+        &:not(:last-child) {
+            margin-bottom: 2rem;
+        }
+
+    }
+
+    &__input {
+        font-size: 1.5rem;
+        font-family: inherit;
+        color: inherit;
+        padding: 1.5rem 2rem;
+        border-radius: 2px;
+        background-color: rgba($color-white, .8);
+        border: none;
+        border-bottom: 3px solid transparent;
+        width: 90%;
+        display: block;
+        transition: all .3s;
+
+        @include respond(tab-port) {
+            width: 100%;
+        }
+
+        
+        &:focus {
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba($color-black, $alpha: .4);
+            border-bottom: 3px solid $color-primary-light;
+        }
+
+        &:focus:invalid {
+            border-bottom: 3px solid orangered;
+
+        }
+
+        &::-webkit-input-placeholder { // is a pseudo element. Using webkit so that it works for all browsers.
+            color: $color-grey-dark;
+        }
+
+
+    }
+
+
+    &__label {
+        display: block;
+        margin-top: 4px;
+        margin-left: 2rem;
+        color: $color-grey-dark;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 1.3rem;
+        letter-spacing: 0px;
+        transition: all .3s;
+    }
+
+    &__input:placeholder-shown + &__label {
+    // placeholder-shown is an input pseudo class. We are using this instead of just input because we want to NOT show the label when the placeholder is still showing. Then animate it and show it once we start typing and the placeholder dissapears which is actually just back to the original state.  https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements 
+    //'+' is the Adjacent sibling combinator. https://developer.mozilla.org/en-US/docs/Web/CSS/Adjacent_sibling_combinator. 
+    // '~' is the General sibling combinator. https://developer.mozilla.org/en-US/docs/Web/CSS/General_sibling_combinator.  
+        opacity: 0;
+        visibility: hidden; // even if opacity is 0 the element is still there. But setting visibility to hidden really removes the element altogether. But we cannot just use this because visibility cannot be animated whereas opacity can. Hence we have that here.
+        transform: translateY(-4rem);
+    }
+
+    &__radio-group {
+        width: 49%;
+        display: inline-block;
+
+        @include respond(tab-port) {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+    }
+
+    &__radio-label {
+        font-size: $default-font-size;
+        cursor: pointer;
+        position: relative;
+        padding-left: 3rem;
+
+       
+    }
+
+    &__radio-button {
+
+        height: 2rem;
+        width: 2rem;
+        border: 3px solid $color-primary-light;
+        border-radius: 50%;
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 0rem;
+        
+        &::after {
+            content: "";
+            display: inline-block;
+            border-radius: 50%;
+            height: 1.1rem;
+            width: 1.1rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); // recenter it.
+            background-color: $color-primary-light;
+            opacity: 0;
+            transition: opacity .2s;
+        }
+    }
+
+    &__radio-input {
+        opacity: 0;
+        position: absolute;
+    }
+
+    &__radio-input:checked ~ &__radio-label &__radio-button::after { // choosing the direct sibling to radio input, and then choosing the child element of radio label which is the span radio-button that we want to style.
+        opacity: 1;
+    }
+
+    //&__input:placeholder
+}

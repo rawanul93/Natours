@@ -1,0 +1,122 @@
+.popup {
+
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0%; // have to mention positioning with top/left/right if using position fixed or absolute.
+    left: 0%;
+    background-color: rgba($color: $color-black, $alpha: .9);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .4s;
+
+    @supports(-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px)) {
+        -webkit-backdrop-filter: blur(2px);
+        backdrop-filter: blur(2px);
+        background-color: rgba($color-black, $alpha: .3);
+    }
+
+    &:target { //pseudo class that allows us to style something when it is the target.
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &__content {
+        width: 75%;
+        background-color: $color-white;
+        @include dropShadow;
+        @include center;
+        border-radius: 2px;
+        display: table;
+        //the whole content acts like a table and the children display is of table cell. This is to make sure that these two columns are side by side AND also have the same height.
+        overflow: hidden; // images overflow the box and covers the border radius too. Setting this makes sure content that overflows the parent is not shown.
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.3); // doing the translate again here because we cannot use 2 transforms And we need the scale transform for the animation we want for when the popup opens but also want the thing to be centered.
+        transition: all .4s .2s; // the third value here '.2s' is the transition delay. We want to delay a little bit because we want the black backdrop to appear first before the actual content shows up.
+    }
+
+
+    &:target &__content { // when the popup is the target and choosing the child element to style.
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+
+    &__left {
+        width: 33.333333%;
+        display: table-cell;
+        vertical-align: middle; // can be used only on elements that are in a table/table-cell
+
+        @include respond(tab-port) {
+            width: 100%;
+            // height: 20%;
+            display: inline-block;
+
+        }
+    }
+
+    &__right {
+        width: 66.6666666%;
+        display: table-cell;
+        vertical-align: middle;
+        padding: 3rem 5rem;
+
+        @include respond(tab-port) {
+            width: 100%;
+            display: inline-block;
+        }
+
+    }
+
+    &__img {
+        display: block; // always displayed inline. So we change to block or inline-block.
+        width: 100%;
+
+        @include respond(tab-port) {
+            width: 50%;
+            float: left;
+            overflow: hidden;
+        }
+    
+    }
+
+    &__text {
+        font-size: 1.4rem;
+        margin-top: 1rem;
+        margin-bottom: 3rem;
+
+        -moz-column-count: 2;
+        -moz-column-gap: 4rem;
+        -moz-column-rule: 1px solid rgba($color-grey, .5);
+
+        column-count: 2;
+        column-gap: 4rem; // default is 1em. 1'em' = 14px as we stated for this element.
+        column-rule: 1px solid rgba($color-grey, .5);
+
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto; // automatically places hyphes when there are word breaks. For different languages make sure its actually added to the html markup in the lang prop. 
+    }
+
+    &__close {
+        &:link,
+        &:visited {
+            text-decoration: none;
+            color: $color-primary-light;
+            font-size: 3rem;
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            line-height: 1; // had a higher height than the actual icon since its treated like a inline font element. Setting line height to 1 makes sure there is no extra space on top and bottom of this element.
+            // float: right;
+            // transform: translate(2rem, -3rem);
+            transition: all .2s;
+        }
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+}
